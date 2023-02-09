@@ -1,12 +1,13 @@
 // Setup
 const express = require('express')
 const app = express()
+const config = require('./config')[process.env.NODE_ENV || 'development']
 
 // Connect DB
 const { Sequelize } = require('sequelize')
 
 async function connectDb() {
-  const sequelize = new Sequelize('postgres://postgres:namkhanh@localhost:5432/phongtro') // Example for postgres
+  const sequelize = new Sequelize(config.postgres.options) // Example for postgres
   try {
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
@@ -16,7 +17,7 @@ async function connectDb() {
   }
 }
 
-connectDb()
+config.postgres.client = connectDb()
 
 // Routes
 const routes = require('./routes')
