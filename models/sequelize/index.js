@@ -26,6 +26,9 @@ module.exports = (sequelize) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
       password: {
         type: DataTypes.STRING,
@@ -39,6 +42,8 @@ module.exports = (sequelize) => {
     {
       freezeTableName: true,
       timestamps: false,
+      // soft delete, set a flag but not really delete it
+      paranoid: true,
     }
   )
   // Create a Table if it not exist or ready
