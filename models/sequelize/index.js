@@ -12,6 +12,12 @@ module.exports = (sequelize) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: true,
+        // get from database -> manipulate it
+        // be call every single time grab the user
+        get() {
+          const rawValue = this.getDataValue('firstName')
+          return rawValue ? rawValue.toUpperCase() : null
+        },
       },
       lastName: {
         type: DataTypes.STRING,
@@ -24,6 +30,10 @@ module.exports = (sequelize) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        // manipulate first -> send to database
+        set(value) {
+          this.setDataValue('password', `hasehed(${value})`)
+        },
       },
     },
     {

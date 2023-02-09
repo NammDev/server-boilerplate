@@ -35,7 +35,10 @@ module.exports = (config) => {
   router.get('/findone', async (req, res, next) => {
     try {
       const user = await userService.findOneUser()
-      res.send(user)
+      res.send({
+        After: user.firstName,
+        Raw: user.getDataValue('firstName'),
+      })
     } catch (err) {
       return next(err)
     }
