@@ -28,7 +28,7 @@ const routes = require('./routes')
 const TodoService = require('./services/TodoService')
 const todoService = new TodoService()
 
-app.use('/', routes({ todoService }))
+app.use('/', routes(config))
 
 // Listen
 port = process.env.PORT || 3000

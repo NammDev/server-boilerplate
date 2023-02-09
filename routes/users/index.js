@@ -1,12 +1,13 @@
 const express = require('express')
-const TodoService = require('../../services/TodoService')
+const UserService = require('../../services/UserService')
 const router = express.Router()
 
 module.exports = (config) => {
-  const todoService = new TodoService(config.postgres.client)
+  const userService = new UserService(config.postgres.client)
+  userService.getClient()
   router.get('/', async (req, res) => {
     try {
-      const todo = await todoService.getTodo()
+      const todo = await userService.getUser()
       res.send(todo)
     } catch (error) {
       console.log(error)
