@@ -11,8 +11,8 @@ class UserService {
     return 'UserService: Getting a User from Database'
   }
 
-  getClient() {
-    console.log(this.models)
+  async getClient() {
+    return this.models
   }
 }
 

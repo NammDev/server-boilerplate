@@ -6,7 +6,6 @@ const config = require('./config')[process.env.NODE_ENV || 'development']
 // Connect DB
 const { Sequelize } = require('sequelize')
 const sequelize = new Sequelize(config.postgres.options)
-
 function connectDb() {
   sequelize
     .authenticate()
@@ -18,9 +17,12 @@ function connectDb() {
     })
   return sequelize
 }
-
 const postgresClient = connectDb()
 config.postgres.client = postgresClient
+
+// Middleware
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Routes
 const routes = require('./routes')
@@ -28,6 +30,7 @@ const routes = require('./routes')
 const TodoService = require('./services/TodoService')
 const todoService = new TodoService()
 
+// Use Route & Service
 app.use('/', routes(config))
 
 // Listen

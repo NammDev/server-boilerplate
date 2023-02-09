@@ -4,11 +4,10 @@ const router = express.Router()
 
 module.exports = (config) => {
   const userService = new UserService(config.postgres.client)
-  userService.getClient()
   router.get('/', async (req, res) => {
     try {
-      const todo = await userService.getUser()
-      res.send(todo)
+      const user = await userService.getUser()
+      res.json(user)
     } catch (error) {
       console.log(error)
     }
