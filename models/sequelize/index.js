@@ -46,6 +46,70 @@ module.exports = (sequelize) => {
       paranoid: true,
     }
   )
+
+  const ContactInfo = sequelize.define(
+    'ContactInfo',
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      phone: {  
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      freezeTableName: true,
+      timestamps: false,
+    }
+  )
+
+  const Tweet = sequelize.define(
+    'Tweet',
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      timestamps: false,
+    }
+  )
+
+  //one-to-one => hasOne, belognsTo
+  User.hasOne(ContactInfo, {
+    foriegnKey: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  })
+  ContactInfo.belongsTo(User)
+
+  //one-to-many => hasMany, belognsTo
+  User.hasMany(Tweet, {
+    foriegnKey: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  })
+  Tweet.belongsTo(User)
+
+  //many-to-many => belongsToMany
+  User.belongsToMany(User, { as: 'User', foreignKey: 'UserId', through: 'Follow' })
+  User.belongsToMany(User, { as: 'Followed', foreignKey: 'FollowedId', through: 'Follow' })
+
   // Create a Table if it not exist or ready
   // Alter, when modify attributes, it will create
   sequelize.sync({ alter: true })
